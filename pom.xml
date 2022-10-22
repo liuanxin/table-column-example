@@ -19,6 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <api-document.version>0.8.5</api-document.version>
         <table-column.version>0.0.1</table-column.version>
     </properties>
 
@@ -29,6 +30,10 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
@@ -36,6 +41,11 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.liuanxin</groupId>
+            <artifactId>api-document</artifactId>
+            <version>${api-document.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.github.liuanxin</groupId>
             <artifactId>table-column</artifactId>
