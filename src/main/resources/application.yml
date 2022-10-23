@@ -3,9 +3,6 @@ online: false
 
 server.port: 8080
 
-logging.config: classpath:log-dev.xml
-
-
 spring:
   application.name: table-column-example
   datasource:
@@ -20,3 +17,10 @@ spring:
         prepStmtCacheSqlLimit: 128
         cachePrepStmts: true
         useServerPrepStmts: false
+
+query:
+  logic-delete-column: deleted
+  logic-value: 0
+  logic-delete-boolean-value: 1
+  logic-delete-int-value: UNIX_TIMESTAMP()
+  logic-delete-long-value: id

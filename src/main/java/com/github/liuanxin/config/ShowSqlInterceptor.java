@@ -41,7 +41,7 @@ public class ShowSqlInterceptor implements QueryInterceptor {
         // String realSql = SqlFormat.format(sql.get().replaceFirst("^\\s*?\n", ""));
         String realSql = BLANK_REGEX.matcher(sql.get().replaceFirst("^\\s*?\n", "")).replaceAll(" ");
         int len = realSql.length(), max = 2000, leftRight = 400;
-        return len > max ? (realSql.substring(0, leftRight) + " ... " + realSql.substring(len - leftRight, len)) : realSql;
+        return len > max ? (realSql.substring(0, leftRight) + " ...<" + len + ">... " + realSql.substring(len - leftRight, len)) : realSql;
     }
 
     @Override
