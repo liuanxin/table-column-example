@@ -5,10 +5,13 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class GenerateUtil {
 
     private static final ThreadLocalRandom RANDOM = ThreadLocalRandom.current();
+
+    private static final AtomicLong ATOMIC_LONG = new AtomicLong(100000);
 
     private static final String CHAR = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
@@ -30,6 +33,11 @@ public class GenerateUtil {
 
     public static String toShop() {
         return SHOP_NAMES.get(RANDOM.nextInt(SHOP_NAMES.size()));
+    }
+
+    public static String toCode(String prefix) {
+        long num = ATOMIC_LONG.incrementAndGet();
+        return (prefix == null || prefix.isEmpty()) ? String.valueOf(num) : (prefix + "-" + num);
     }
 
     public static String toVarchar(int count) {
