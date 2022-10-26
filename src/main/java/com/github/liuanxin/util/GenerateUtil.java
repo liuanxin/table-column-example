@@ -1,15 +1,13 @@
 package com.github.liuanxin.util;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class GenerateUtil {
 
     private static final ThreadLocalRandom RANDOM = ThreadLocalRandom.current();
-
-    private static final AtomicLong ATOMIC_LONG = new AtomicLong(100000);
 
     private static final String CHAR = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
@@ -17,11 +15,9 @@ public class GenerateUtil {
     private static final String GIRL_NAME = "秀娟英华慧巧美娜静淑惠珠翠雅芝玉萍红娥玲芬芳燕彩春菊兰凤洁梅琳素云莲真环雪荣爱妹霞香月媛艳凡佳嘉琼勤珍莉桂娣妍茜秋珊莎锦羽希宁欣育柔竹亚宜枝思丽";
     private static final String BOY_NAME = "伟刚勇毅俊峰强军平东文辉力明永健世广志义兴良海山仁波宁贵福龙元全国胜学祥发武新利承乐绍功松善厚庆朋斌梁栋维启克伦翔旭鹏泽晨辰士以建家致树德行时泰";
 
-    private static final String[] TEL_ARR = "3,5,8".split(",");
-    private static final String[] EMAIL_SUFFIX = "@gmail.com,@msn.com,@live.com,@qq.com,@163.com,@126.com".split(",");
-
     public static String toPhone() {
-        return "1" + TEL_ARR[RANDOM.nextInt(TEL_ARR.length)] + RANDOM.nextInt(10)
+        String temp = "358";
+        return "1" + temp.charAt(RANDOM.nextInt(temp.length())) + RANDOM.nextInt(10)
                 + String.format("%04d", RANDOM.nextInt(10000))
                 + String.format("%04d", RANDOM.nextInt(10000));
     }
@@ -32,7 +28,8 @@ public class GenerateUtil {
         for (int i = 0; i < length; i++) {
             sbd.append(CHAR.charAt(RANDOM.nextInt(CHAR.length())));
         }
-        sbd.append(EMAIL_SUFFIX[RANDOM.nextInt(EMAIL_SUFFIX.length)]);
+        String[] emailArr = "@gmail.com,@msn.com,@live.com,@qq.com,@163.com,@126.com".split(",");
+        sbd.append(emailArr[RANDOM.nextInt(emailArr.length)]);
         return sbd.toString();
     }
 
@@ -49,8 +46,10 @@ public class GenerateUtil {
     }
 
     public static String toCode(String prefix) {
-        long num = ATOMIC_LONG.incrementAndGet();
-        return (prefix == null || prefix.isEmpty()) ? String.valueOf(num) : (prefix + "-" + num);
+        String num = String.format("%05d", RANDOM.nextInt(100000));
+        String today = new SimpleDateFormat("yyyy-MM-dd").format(toDate(120));
+        String no = today + "-" + num;
+        return (prefix == null || prefix.isEmpty()) ? (today + "-" + no) : (prefix + "-" + no);
     }
 
     public static String toVarchar(int count) {

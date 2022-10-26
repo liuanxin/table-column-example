@@ -70,6 +70,8 @@ public class TableColumnController {
                                         info = GenerateUtil.toPhone();
                                     } else if (lowerCase.contains("email")) {
                                         info = GenerateUtil.toEmail();
+                                    } else if (lowerCase.contains("code")) {
+                                        info = GenerateUtil.toCode(lowerCase.substring(0, lowerCase.indexOf("code")));
                                     } else {
                                         info = GenerateUtil.toVarchar(10);
                                     }
