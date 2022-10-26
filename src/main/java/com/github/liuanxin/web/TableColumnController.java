@@ -44,6 +44,7 @@ public class TableColumnController {
                                 String name = tableColumn.getAlias();
                                 Object info;
                                 Class<?> fieldType = tableColumn.getFieldType();
+                                String lowerCase = name.toLowerCase().replace("_", "");
                                 if (name.equals(tableInfo.getLogicColumn())) {
                                     info = tableInfo.getLogicValue();
                                 } else if (fieldType == Boolean.class) {
@@ -53,25 +54,24 @@ public class TableColumnController {
                                 } else if (fieldType == Long.class) {
                                     info = GenerateUtil.toLong(100000000L);
                                 } else if (fieldType == BigDecimal.class) {
-                                    info = GenerateUtil.toDecimal(10000D);
-                                } else {
-                                    String lowerCase = name.toLowerCase();
-                                    if (fieldType == Date.class) {
-                                        if ("createtime".equals(lowerCase) || "updatetime".equals(lowerCase)) {
-                                            info = null;
-                                        } else {
-                                            info = GenerateUtil.toDate(30);
-                                        }
+                                    info = GenerateUtil.toDecimal(10000000D);
+                                } else if (fieldType == Date.class) {
+                                    if ("createtime".equals(lowerCase)) {
+                                        info = GenerateUtil.toDate(120);
+                                    } else if ("updatetime".equals(lowerCase)) {
+                                        info = GenerateUtil.toDate(10);
                                     } else {
-                                        if (lowerCase.contains("shop")) {
-                                            info = GenerateUtil.toShop();
-                                        } else if (lowerCase.endsWith("name")) {
-                                            info = GenerateUtil.toName();
-                                        } else if (lowerCase.endsWith("code")) {
-                                            info = GenerateUtil.toCode(lowerCase.substring(0, lowerCase.indexOf("code")));
-                                        } else {
-                                            info = GenerateUtil.toVarchar(10);
-                                        }
+                                        info = GenerateUtil.toDate(30);
+                                    }
+                                } else {
+                                    if (lowerCase.contains("username")) {
+                                        info = GenerateUtil.toName();
+                                    } else if (lowerCase.contains("phone") || lowerCase.contains("tel")) {
+                                        info = GenerateUtil.toPhone();
+                                    } else if (lowerCase.contains("email")) {
+                                        info = GenerateUtil.toEmail();
+                                    } else {
+                                        info = GenerateUtil.toVarchar(10);
                                     }
                                 }
                                 data.put(name, info);
