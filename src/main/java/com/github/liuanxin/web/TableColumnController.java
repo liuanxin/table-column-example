@@ -54,7 +54,7 @@ public class TableColumnController {
                                 } else if (fieldType == Long.class) {
                                     info = GenerateUtil.toLong(100000000L);
                                 } else if (fieldType == BigDecimal.class) {
-                                    info = GenerateUtil.toDecimal(10000000D);
+                                    info = GenerateUtil.toDecimal(100000D);
                                 } else if (fieldType == Date.class) {
                                     if ("createtime".equals(lowerCase)) {
                                         info = GenerateUtil.toDate(120);
