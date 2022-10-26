@@ -61,7 +61,7 @@ public class TableColumnController {
                                     } else if ("updatetime".equals(lowerCase)) {
                                         info = GenerateUtil.toDate(10);
                                     } else {
-                                        info = GenerateUtil.toDate(30);
+                                        info = GenerateUtil.toDate(150);
                                     }
                                 } else {
                                     if (lowerCase.contains("username")) {
