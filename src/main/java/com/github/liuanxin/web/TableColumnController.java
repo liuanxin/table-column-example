@@ -71,7 +71,7 @@ public class TableColumnController {
                                     } else if (lowerCase.contains("email")) {
                                         info = GenerateUtil.toEmail();
                                     } else if (lowerCase.contains("code")) {
-                                        info = GenerateUtil.toCode(lowerCase.substring(0, lowerCase.indexOf("code")));
+                                        info = GenerateUtil.toCode(null);
                                     } else {
                                         info = GenerateUtil.toVarchar(10);
                                     }
