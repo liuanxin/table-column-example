@@ -1,6 +1,7 @@
 package com.github.liuanxin.util;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
@@ -66,15 +67,15 @@ public class GenerateUtil {
     }
 
     public static int toInt(int max) {
-        return Math.abs(RANDOM.nextInt(max));
+        return RANDOM.nextInt(1, max);
     }
 
     public static long toLong(long max) {
-        return Math.abs(RANDOM.nextLong(max));
+        return RANDOM.nextLong(1, max);
     }
 
-    public static BigDecimal toDecimal(double max) {
-        return new BigDecimal(String.valueOf(Math.abs(RANDOM.nextDouble(max))));
+    public static BigDecimal toDecimal(double max, int scale) {
+        return BigDecimal.valueOf(RANDOM.nextDouble(0.01D, max)).setScale(scale, RoundingMode.DOWN);
     }
 
     public static Date toDate(int ago) {
