@@ -50,11 +50,11 @@ public class TableColumnController {
                                 } else if (fieldType == Boolean.class) {
                                     info = GenerateUtil.toBoolean();
                                 } else if (fieldType == Integer.class) {
-                                    info = GenerateUtil.toInt(20);
+                                    info = GenerateUtil.toInt(256);
                                 } else if (fieldType == Long.class) {
-                                    info = GenerateUtil.toLong(100000L);
+                                    info = GenerateUtil.toLong(30000L);
                                 } else if (fieldType == BigDecimal.class) {
-                                    info = GenerateUtil.toDecimal(5000D, 2);
+                                    info = GenerateUtil.toDecimal(50000D, 2);
                                 } else if (fieldType == Date.class) {
                                     if ("createtime".equals(lowerCase)) {
                                         info = GenerateUtil.toDate(120);
