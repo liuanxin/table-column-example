@@ -28,7 +28,7 @@ public class TableColumnController {
     private final TableColumnTemplate tableColumnTemplate;
 
     @GetMapping("/generate-user")
-    @ApiMethod(value = "生成数据", index = 1)
+    @ApiMethod(value = "生成数据", index = 2)
     public JsonResult<String> example(@ApiParam("表名") String tables, @ApiParam("生成个数") Integer count) {
         if (tables != null && !tables.trim().isEmpty() && count != null && count > 0) {
             for (String table : tables.split(",")) {
@@ -50,7 +50,7 @@ public class TableColumnController {
                                 } else if (fieldType == Boolean.class) {
                                     info = GenerateUtil.toBoolean();
                                 } else if (fieldType == Integer.class) {
-                                    info = GenerateUtil.toInt(256);
+                                    info = GenerateUtil.toInt(10);
                                 } else if (fieldType == Long.class) {
                                     info = GenerateUtil.toLong(30000L);
                                 } else if (fieldType == BigDecimal.class) {
@@ -91,7 +91,7 @@ public class TableColumnController {
     }
 
     @GetMapping("/table-column")
-    @ApiMethod(value = "结构查询", index = 2)
+    @ApiMethod(value = "结构查询", index = 1)
     public JsonResult<List<QueryInfo>> info(String tables) {
         return JsonResult.success("table-column info", tableColumnTemplate.info(tables));
     }
