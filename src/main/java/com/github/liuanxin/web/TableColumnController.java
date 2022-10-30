@@ -29,7 +29,8 @@ public class TableColumnController {
 
     @GetMapping("/generate-user")
     @ApiMethod(value = "生成数据", index = 2)
-    public JsonResult<String> example(@ApiParam("表名") String tables, @ApiParam("生成个数") Integer count) {
+    public JsonResult<String> generate(@ApiParam("表名") String tables, @ApiParam("生成个数") Integer count) {
+        int flag = 0;
         if (tables != null && !tables.trim().isEmpty() && count != null && count > 0) {
             for (String table : tables.split(",")) {
                 table = table.trim();
@@ -83,11 +84,21 @@ public class TableColumnController {
                             dataList.add(data);
                         }
                     }
-                    tableColumnTemplate.insertBatch(table, dataList);
+                    flag += tableColumnTemplate.insertBatch(table, dataList);
                 }
             }
         }
-        return JsonResult.success("操作成功");
+        return JsonResult.success("生成成功 " + flag + " 条");
+    }
+
+    @SuppressWarnings("unchecked")
+    @PostMapping("/generate-user")
+    @ApiMethod(value = "直接生成数据", index = 3)
+    public JsonResult<Object> generate(@RequestBody Map<String, Object> req) {
+        String table = QueryUtil.toStr(req.get("table"));
+        List<Map<String, Object>> dataList = (List<Map<String, Object>>) req.get("data");
+        int flag = tableColumnTemplate.insertBatch(table, dataList);
+        return JsonResult.success("成功 " + flag + " 条");
     }
 
     @GetMapping("/table-column")
@@ -97,7 +108,7 @@ public class TableColumnController {
     }
 
     @PostMapping("/table-column")
-    @ApiMethod(value = "数据查询", index = 3)
+    @ApiMethod(value = "数据查询", index = 4)
     public JsonResult<Object> query(@RequestBody RequestInfo req) {
         return JsonResult.success("query table-column", tableColumnTemplate.dynamicQuery(req));
     }
