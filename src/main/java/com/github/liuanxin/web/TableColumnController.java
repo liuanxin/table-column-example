@@ -1,5 +1,6 @@
 package com.github.liuanxin.web;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.liuanxin.api.annotation.ApiGroup;
 import com.github.liuanxin.api.annotation.ApiMethod;
 import com.github.liuanxin.api.annotation.ApiParam;
@@ -8,6 +9,7 @@ import com.github.liuanxin.query.model.QueryInfo;
 import com.github.liuanxin.query.model.RequestInfo;
 import com.github.liuanxin.query.model.Table;
 import com.github.liuanxin.query.model.TableColumn;
+import com.github.liuanxin.query.util.QueryJsonUtil;
 import com.github.liuanxin.query.util.QueryUtil;
 import com.github.liuanxin.util.GenerateUtil;
 import com.github.liuanxin.util.JsonResult;
@@ -24,6 +26,8 @@ import java.util.*;
 @RestController
 @RequiredArgsConstructor
 public class TableColumnController {
+
+    private static final TypeReference<List<Map<String, Object>>> TYPE_REFERENCE = new TypeReference<List<Map<String, Object>>>() {};
 
     private final TableColumnTemplate tableColumnTemplate;
 
@@ -91,12 +95,11 @@ public class TableColumnController {
         return JsonResult.success("生成成功 " + flag + " 条");
     }
 
-    @SuppressWarnings("unchecked")
     @PostMapping("/generate-user")
     @ApiMethod(value = "直接生成数据", index = 3)
     public JsonResult<Object> generate(@RequestBody Map<String, Object> req) {
         String table = QueryUtil.toStr(req.get("table"));
-        List<Map<String, Object>> dataList = (List<Map<String, Object>>) req.get("data");
+        List<Map<String, Object>> dataList = QueryJsonUtil.convertType(req.get("data"), TYPE_REFERENCE);
         int flag = tableColumnTemplate.insertBatch(table, dataList);
         return JsonResult.success("成功 " + flag + " 条");
     }
