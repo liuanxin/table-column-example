@@ -14,8 +14,8 @@ public class TableColumnExampleTest {
     @Test
     public void generateModel() {
         String tables = "";
-        String targetPath = "/home/tony/project/github/table-column-example/src/main/java";
-        String packagePath = "com.github.example.model";
-        tableColumnTemplate.generateModel(tables, targetPath, packagePath, "Entity");
+        String targetPath = "/home/admin/temp";
+        String packagePath = "com.github.tc.model";
+        tableColumnTemplate.generateModel(tables, targetPath, packagePath);
     }
 }
