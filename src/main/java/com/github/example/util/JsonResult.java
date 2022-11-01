@@ -1,4 +1,4 @@
-package com.github.liuanxin.util;
+package com.github.example.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

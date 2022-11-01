@@ -1,4 +1,4 @@
-package com.github.liuanxin.util;
+package com.github.example.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

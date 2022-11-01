@@ -1,4 +1,4 @@
-package com.github.liuanxin.config;
+package com.github.example.config;
 
 import com.github.liuanxin.api.annotation.EnableApiInfo;
 import com.github.liuanxin.api.model.DocumentCopyright;

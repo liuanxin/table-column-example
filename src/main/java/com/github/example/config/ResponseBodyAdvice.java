@@ -1,4 +1,4 @@
-package com.github.liuanxin.config;
+package com.github.example.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

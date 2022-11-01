@@ -1,4 +1,4 @@
-package com.github.liuanxin.config;
+package com.github.example.config;
 
 import com.mysql.cj.MysqlConnection;
 import com.mysql.cj.Query;

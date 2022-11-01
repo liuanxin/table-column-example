@@ -1,4 +1,4 @@
-package com.github.liuanxin.exception;
+package com.github.example.exception;
 
 import java.io.Serializable;
 

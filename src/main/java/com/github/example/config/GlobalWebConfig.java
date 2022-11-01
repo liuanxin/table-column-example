@@ -1,4 +1,4 @@
-package com.github.liuanxin.config;
+package com.github.example.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

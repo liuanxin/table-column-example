@@ -1,6 +1,8 @@
-package com.github.liuanxin.web;
+package com.github.example.web;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.github.example.util.GenerateUtil;
+import com.github.example.util.JsonResult;
 import com.github.liuanxin.api.annotation.ApiGroup;
 import com.github.liuanxin.api.annotation.ApiMethod;
 import com.github.liuanxin.api.annotation.ApiParam;
@@ -11,8 +13,6 @@ import com.github.liuanxin.query.model.Table;
 import com.github.liuanxin.query.model.TableColumn;
 import com.github.liuanxin.query.util.QueryJsonUtil;
 import com.github.liuanxin.query.util.QueryUtil;
-import com.github.liuanxin.util.GenerateUtil;
-import com.github.liuanxin.util.JsonResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

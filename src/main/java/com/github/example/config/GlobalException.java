@@ -1,7 +1,7 @@
-package com.github.liuanxin.config;
+package com.github.example.config;
 
-import com.github.liuanxin.exception.ServiceException;
-import com.github.liuanxin.util.JsonCode;
+import com.github.example.exception.ServiceException;
+import com.github.example.util.JsonCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
