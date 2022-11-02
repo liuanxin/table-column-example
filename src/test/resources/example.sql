@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `t_seller` (
   `shop_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '店铺名',
   `create_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
   `update_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) COMMENT '更新时间',
-  `deleted` int unsigned NOT NULL DEFAULT '0' COMMENT '0.未删除, 非 0.已删除',
+  `deleted` bigint unsigned NOT NULL DEFAULT '0' COMMENT '0.未删除, 非 0.已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_shop_name` (`shop_name`,`deleted`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='卖家';
