@@ -26,8 +26,9 @@ CREATE TABLE IF NOT EXISTS `t_order_address` (
   `address` varchar(128) NOT NULL DEFAULT '' COMMENT '联系人地址',
   `create_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
   `update_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) COMMENT '更新时间',
+  `deleted` bigint unsigned NOT NULL DEFAULT '0' COMMENT '0.未删除, 非 0.已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_order_no` (`order_no`)
+  UNIQUE KEY `uk_order_no` (`order_no`,`deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单地址';
 
 INSERT INTO `t_order_address` (`order_no`, `contact`, `phone`, `address`) VALUES
@@ -41,15 +42,13 @@ CREATE TABLE IF NOT EXISTS `t_order_item` (
   `product_name` varchar(32) NOT NULL DEFAULT '' COMMENT '商品名',
   `price` decimal(20,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '商品价格',
   `number` int unsigned NOT NULL DEFAULT '0' COMMENT '商品数量',
-  `create_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
-  `update_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_order_no` (`order_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单项(商品)';
 
 INSERT INTO `t_order_item` (`order_no`, `product_name`, `price`, `number`) VALUES
-('1-2-221010-00001', 'iPhone 14 Pro', 8999.00, 1),
-('1-2-221010-00001', '女款外套', 129.54, 2);
+('1-2-221010-00001', 'iPhone 14 Pro', 8999, 1),
+('1-2-221010-00001', '女款外套', 129.5, 2);
 
 
 DROP TABLE IF EXISTS `t_order_log`;
@@ -59,6 +58,7 @@ CREATE TABLE IF NOT EXISTS `t_order_log` (
   `operate_name` varchar(32) NOT NULL DEFAULT '' COMMENT '操作人',
   `message` text COMMENT '操作内容',
   `operate_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0.未删除, 1.已删除',
   PRIMARY KEY (`id`),
   KEY `idx_order_no` (`order_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单日志';

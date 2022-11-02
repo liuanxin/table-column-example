@@ -43,8 +43,6 @@ public class TableColumnConfig {
 //        );
 
         return Arrays.asList(
-                new TableColumnRelation("t_buyer", "id", TableRelationType.ONE_TO_MANY, "t_order", "buyer_id"),
-                new TableColumnRelation("t_seller", "id", TableRelationType.ONE_TO_MANY, "t_order", "seller_id"),
                 new TableColumnRelation("t_order", "order_no", TableRelationType.ONE_TO_ONE, "t_order_address", "order_no"),
                 new TableColumnRelation("t_order", "order_no", TableRelationType.ONE_TO_MANY, "t_order_item", "order_no"),
                 new TableColumnRelation("t_order", "order_no", TableRelationType.ONE_TO_MANY, "t_order_log", "order_no")
