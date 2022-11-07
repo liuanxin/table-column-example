@@ -20,6 +20,7 @@ spring:
 
 query:
   table-prefix: t_
+  alias-generate-rule: 10
   logic-delete-column: deleted
   logic-value: 0
   logic-delete-boolean-value: 1
