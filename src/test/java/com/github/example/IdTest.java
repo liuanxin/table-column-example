@@ -13,7 +13,7 @@ import java.util.concurrent.*;
 
 public class IdTest {
 
-    private static final int COUNT = 1000000;
+    private static final int COUNT = 100000;
     private static final int CPU_NUM = Runtime.getRuntime().availableProcessors();
     private static final ExecutorService THREAD_POOL = new ThreadPoolExecutor(
             CPU_NUM,
@@ -28,13 +28,12 @@ public class IdTest {
         long start = System.currentTimeMillis();
         System.out.println("start : " + FORMATTER.format(LocalDateTime.ofInstant(new Date(start).toInstant(), ZONE_ID)));
 
-        List<Callable<Long>> callList = new ArrayList<>();
+        List<Future<Long>> callList = new ArrayList<>();
         for (int i = 0; i < COUNT; i++) {
-            callList.add(IdUtil::nextId);
+            callList.add(THREAD_POOL.submit(IdUtil::getId));
         }
-        List<Future<Long>> futures = THREAD_POOL.invokeAll(callList, 1, TimeUnit.MINUTES);
         Set<Long> set = ConcurrentHashMap.newKeySet();
-        for (Future<Long> future : futures) {
+        for (Future<Long> future : callList) {
             set.add(future.get());
         }
         long end = System.currentTimeMillis();
@@ -52,8 +51,8 @@ public class IdTest {
             i++;
             System.out.println(s);
         }
+        List<Runnable> runnableList = THREAD_POOL.shutdownNow();
         System.out.println("------------------");
-        boolean flag = THREAD_POOL.awaitTermination(5, TimeUnit.SECONDS);
-        System.out.println(flag);
+        System.out.println(runnableList.size());
     }
 }
