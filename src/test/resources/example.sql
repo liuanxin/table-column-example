@@ -55,7 +55,7 @@ DROP TABLE IF EXISTS `t_order_log`;
 CREATE TABLE IF NOT EXISTS `t_order_log` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `order_no` varchar(32) NOT NULL DEFAULT '' COMMENT '订单号',
-  `operater` varchar(32) NOT NULL DEFAULT '' COMMENT '操作人',
+  `operator` varchar(32) NOT NULL DEFAULT '' COMMENT '操作人',
   `message` text COMMENT '操作内容',
   `time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0.未删除, 1.已删除',
@@ -63,6 +63,6 @@ CREATE TABLE IF NOT EXISTS `t_order_log` (
   KEY `idx_order_no` (`order_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单日志';
 
-INSERT INTO `t_order_log` (`order_no`, `operater`, `message`, `time`) VALUES
+INSERT INTO `t_order_log` (`order_no`, `operator`, `message`, `time`) VALUES
 ('1-2-221010-00001', '张三', '创建订单', '2022-10-01 11:12:13'),
 ('1-2-221010-00001', '张三', '支付成功', '2022-10-01 12:13:14');
