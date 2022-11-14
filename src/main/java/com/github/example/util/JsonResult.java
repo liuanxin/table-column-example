@@ -28,8 +28,6 @@ public class JsonResult<T> {
     }
 
 
-    // ---------- 在 controller 中请只使用下面的静态方法. 不要 new JsonResult()... 这样操作 ----------
-
     public static <T> JsonResult<T> success(String msg) {
         return new JsonResult<T>(JsonCode.SUCCESS, msg);
     }
