@@ -1,6 +1,5 @@
 package com.github.example.config;
 
-import com.github.example.exception.ServiceException;
 import com.github.example.util.JsonCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,20 +27,6 @@ public class GlobalException {
     @Value("${online:false}")
     private boolean online;
 
-    @ExceptionHandler(ServiceException.class)
-    // public JsonResult service(ServiceException e) {
-    public ResponseEntity<String> service(ServiceException e) {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("业务异常", e);
-        }
-        // return JsonResult.fail(e.getMessage());
-        return ResponseEntity.status(JsonCode.FAIL.getCode()).body(e.getMessage());
-    }
-
-    // 其他的自定义异常
-
-
-    // ... spring 的内部异常 ...
 
     @ExceptionHandler(NoHandlerFoundException.class)
     // public JsonResult noHandler(NoHandlerFoundException e) {
@@ -101,9 +86,6 @@ public class GlobalException {
         // return JsonResult.fail(msg);
         return ResponseEntity.status(JsonCode.FAIL.getCode()).body(msg);
     }
-
-
-    // ... 其他的异常 ...
 
 
     @ExceptionHandler(Throwable.class)

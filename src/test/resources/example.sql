@@ -1,4 +1,9 @@
 
+DROP DATABASE IF EXISTS `table-column-example`;
+CREATE DATABASE IF NOT EXISTS `table-column-example`;
+USE `table-column-example`;
+
+
 DROP TABLE IF EXISTS `t_order`;
 CREATE TABLE IF NOT EXISTS `t_order` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
@@ -13,8 +18,8 @@ CREATE TABLE IF NOT EXISTS `t_order` (
   UNIQUE KEY `uk_order_no` (`order_no`,`deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单';
 
-INSERT INTO `t_order` (`order_no`, `order_status`, `amount`) VALUES
-('1-2-221010-00001', 1, 125.49), ('1-2-221010-00002', 2, 38.00);
+INSERT INTO `t_order` (`order_no`, `order_status`, `amount`, `desc`) VALUES
+('1-2-221010-00001', 1, 125.49, '备注'), ('1-2-221010-00002', 2, 38.00, '');
 
 
 DROP TABLE IF EXISTS `t_order_address`;

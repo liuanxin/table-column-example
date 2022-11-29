@@ -6,7 +6,7 @@ server.port: 8080
 spring:
   application.name: table-column-example
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/table-column?useAffectedRows=true&useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true
+    url: jdbc:mysql://127.0.0.1:3306/table-column-example?useAffectedRows=true&useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true
     username: root
     password: root
     hikari:
@@ -20,7 +20,7 @@ spring:
 
 query:
   table-prefix: t_
-  alias-generate-rule: letter
+#  alias-generate-rule: letter
   logic-delete-column: deleted
   logic-value: 0
   logic-delete-boolean-value: 1
