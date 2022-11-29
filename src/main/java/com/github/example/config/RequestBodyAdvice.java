@@ -29,7 +29,7 @@ public class RequestBodyAdvice extends RequestBodyAdviceAdapter {
 
     @Override
     public boolean supports(MethodParameter methodParameter, Type type, Class<? extends HttpMessageConverter<?>> aClass) {
-        return methodParameter.getParameterAnnotation(RequestBody.class) != null;
+        return methodParameter.hasParameterAnnotation(RequestBody.class);
     }
 
     @Override
