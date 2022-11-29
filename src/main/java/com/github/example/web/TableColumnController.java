@@ -31,8 +31,20 @@ public class TableColumnController {
 
     private final TableColumnTemplate tableColumnTemplate;
 
+    @GetMapping("/table-column")
+    @ApiMethod(value = "结构查询", index = 1)
+    public JsonResult<List<QueryInfo>> info(String tables) {
+        return JsonResult.success("table-column info", tableColumnTemplate.info(tables));
+    }
+
+    @PostMapping("/table-column")
+    @ApiMethod(value = "数据查询", index = 2)
+    public JsonResult<Object> query(@RequestBody RequestInfo req) {
+        return JsonResult.success("query table-column", tableColumnTemplate.dynamicQuery(req));
+    }
+
     @GetMapping("/generate-user")
-    @ApiMethod(value = "生成数据", index = 2)
+    @ApiMethod(value = "生成数据", index = 3)
     public JsonResult<String> generate(@ApiParam("表名") String tables, @ApiParam("生成个数") Integer count) {
         int flag = 0;
         if (tables != null && !tables.trim().isEmpty() && count != null && count > 0) {
@@ -96,23 +108,11 @@ public class TableColumnController {
     }
 
     @PostMapping("/generate-user")
-    @ApiMethod(value = "直接生成数据", index = 3)
+    @ApiMethod(value = "直接生成数据", index = 4)
     public JsonResult<Object> generate(@RequestBody Map<String, Object> req) {
         String table = QueryUtil.toStr(req.get("table"));
         List<Map<String, Object>> dataList = QueryJsonUtil.convertType(req.get("data"), TYPE_REFERENCE);
         int flag = tableColumnTemplate.insertBatch(table, dataList);
         return JsonResult.success("成功 " + flag + " 条");
-    }
-
-    @GetMapping("/table-column")
-    @ApiMethod(value = "结构查询", index = 1)
-    public JsonResult<List<QueryInfo>> info(String tables) {
-        return JsonResult.success("table-column info", tableColumnTemplate.info(tables));
-    }
-
-    @PostMapping("/table-column")
-    @ApiMethod(value = "数据查询", index = 4)
-    public JsonResult<Object> query(@RequestBody RequestInfo req) {
-        return JsonResult.success("query table-column", tableColumnTemplate.dynamicQuery(req));
     }
 }
