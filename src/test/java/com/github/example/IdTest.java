@@ -13,7 +13,7 @@ import java.util.concurrent.*;
 
 public class IdTest {
 
-    private static final int COUNT = 100000;
+    private static final int COUNT = 1000000;
     private static final int CPU_NUM = Runtime.getRuntime().availableProcessors();
     private static final ExecutorService THREAD_POOL = new ThreadPoolExecutor(
             CPU_NUM,
@@ -26,7 +26,7 @@ public class IdTest {
 
     public static void main(String[] args) throws Exception {
         System.out.println("------------------");
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             System.out.println(IdUtil.getId());
         }
         System.out.println("------------------");
@@ -49,5 +49,6 @@ public class IdTest {
         System.out.println("------------------");
         System.out.println("all   : " + COUNT);
         System.out.println("real  : " + set.size());
+        THREAD_POOL.shutdownNow();
     }
 }
