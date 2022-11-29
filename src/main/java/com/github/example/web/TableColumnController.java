@@ -31,6 +31,13 @@ public class TableColumnController {
 
     private final TableColumnTemplate tableColumnTemplate;
 
+    @GetMapping("/table-column-refresh")
+    @ApiMethod(value = "刷新结构", index = 0)
+    public JsonResult<List<QueryInfo>> refresh() {
+        boolean flag = tableColumnTemplate.refreshWithDatabase();
+        return JsonResult.success("refresh table-column " + (flag ? "success" : "fail"));
+    }
+
     @GetMapping("/table-column")
     @ApiMethod(value = "结构查询", index = 1)
     public JsonResult<List<QueryInfo>> info(String tables) {
