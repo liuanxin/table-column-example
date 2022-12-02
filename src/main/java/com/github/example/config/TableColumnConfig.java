@@ -12,7 +12,7 @@ import java.util.List;
 public class TableColumnConfig {
 
     @Bean
-    public List<TableColumnRelation> relationList() {
+    public List<TableColumnRelation> tableRelationList() {
         return Arrays.asList(
                 new TableColumnRelation("t_order", "order_no", TableRelationType.ONE_TO_ONE, "t_order_address", "order_no"),
                 new TableColumnRelation("t_order", "order_no", TableRelationType.ONE_TO_MANY, "t_order_item", "order_no"),

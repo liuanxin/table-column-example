@@ -2,13 +2,12 @@ package com.github.example.web;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.example.util.GenerateUtil;
-import com.github.example.util.JsonResult;
 import com.github.liuanxin.api.annotation.ApiGroup;
 import com.github.liuanxin.api.annotation.ApiMethod;
 import com.github.liuanxin.api.annotation.ApiParam;
 import com.github.liuanxin.query.core.TableColumnTemplate;
 import com.github.liuanxin.query.model.QueryInfo;
-import com.github.liuanxin.query.model.RequestInfo;
+import com.github.liuanxin.query.model.ReqInfo;
 import com.github.liuanxin.query.model.Table;
 import com.github.liuanxin.query.model.TableColumn;
 import com.github.liuanxin.query.util.QueryJsonUtil;
@@ -33,26 +32,26 @@ public class TableColumnController {
 
     @GetMapping("/table-column-refresh")
     @ApiMethod(value = "刷新结构", index = 0)
-    public JsonResult<List<QueryInfo>> refresh() {
+    public String refresh() {
         boolean flag = tableColumnTemplate.refreshWithDatabase();
-        return JsonResult.success("refresh table-column " + (flag ? "success" : "fail"));
+        return flag ? "success" : "fail";
     }
 
     @GetMapping("/table-column")
     @ApiMethod(value = "结构查询", index = 1)
-    public JsonResult<List<QueryInfo>> info(String tables) {
-        return JsonResult.success("table-column info", tableColumnTemplate.info(tables));
+    public List<QueryInfo> info(String tables) {
+        return tableColumnTemplate.info(tables);
     }
 
     @PostMapping("/table-column")
     @ApiMethod(value = "数据查询", index = 2)
-    public JsonResult<Object> query(@RequestBody RequestInfo req) {
-        return JsonResult.success("query table-column", tableColumnTemplate.dynamicQuery(req));
+    public Object query(@RequestBody ReqInfo req) {
+        return tableColumnTemplate.dynamicQuery(req);
     }
 
     @GetMapping("/generate-user")
     @ApiMethod(value = "生成数据", index = 3)
-    public JsonResult<String> generate(@ApiParam("表名") String tables, @ApiParam("生成个数") Integer count) {
+    public String generate(@ApiParam("表名") String tables, @ApiParam("生成个数") Integer count) {
         int flag = 0;
         if (tables != null && !tables.trim().isEmpty() && count != null && count > 0) {
             for (String table : tables.split(",")) {
@@ -111,15 +110,15 @@ public class TableColumnController {
                 }
             }
         }
-        return JsonResult.success("生成成功 " + flag + " 条");
+        return "生成成功 " + flag + " 条";
     }
 
     @PostMapping("/generate-user")
     @ApiMethod(value = "直接生成数据", index = 4)
-    public JsonResult<Object> generate(@RequestBody Map<String, Object> req) {
+    public Object generate(@RequestBody Map<String, Object> req) {
         String table = QueryUtil.toStr(req.get("table"));
         List<Map<String, Object>> dataList = QueryJsonUtil.convertType(req.get("data"), TYPE_REFERENCE);
         int flag = tableColumnTemplate.insertBatch(table, dataList);
-        return JsonResult.success("成功 " + flag + " 条");
+        return "成功 " + flag + " 条";
     }
 }
