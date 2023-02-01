@@ -19,8 +19,11 @@ spring:
         useServerPrepStmts: false
 
 query:
-  table-prefix: t_
+#  scan-packages: com.github.example.model
+#  required-alias: true
+#  need-condition-or-page: true
 #  alias-generate-rule: letter
+  table-prefix: t_
   logic-delete-column: deleted
   logic-value: 0
   logic-delete-boolean-value: 1
