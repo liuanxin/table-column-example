@@ -1,2 +1,119 @@
 
 *** table-column-example
+
+假定你有如下这样的表
+#+BEGIN_SRC sql
+CREATE TABLE `t_order` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `order_no` varchar(32) NOT NULL COMMENT '订单号',
+  `order_status` int unsigned NOT NULL DEFAULT '0' COMMENT '订单状态(0.用户已创建待支付, 1.用户已支付待商户发货, 2.商户已发货待用户签收, 3.用户已签收待确认完结, 4.已完结)',
+  `amount` decimal(20,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '订单金额',
+  `desc` varchar(32) NOT NULL DEFAULT '' COMMENT '备注',
+  `create_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+  `update_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) COMMENT '更新时间',
+  `deleted` int unsigned NOT NULL DEFAULT '0' COMMENT '0.未删除, 非 0.已删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_order_no` (`order_no`,`deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单';
+
+CREATE TABLE `t_order_address` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `order_no` varchar(32) NOT NULL DEFAULT '' COMMENT '订单号',
+  `contact` varchar(16) NOT NULL DEFAULT '' COMMENT '联系人',
+  `phone` varchar(16) NOT NULL DEFAULT '' COMMENT '联系电话',
+  `address` varchar(128) NOT NULL DEFAULT '' COMMENT '联系人地址',
+  `create_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+  `update_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) COMMENT '更新时间',
+  `deleted` bigint unsigned NOT NULL DEFAULT '0' COMMENT '0.未删除, 非 0.已删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_order_no` (`order_no`,`deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单地址';
+
+CREATE TABLE `t_order_item` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `order_no` varchar(32) NOT NULL DEFAULT '' COMMENT '订单号',
+  `product_name` varchar(32) NOT NULL DEFAULT '' COMMENT '商品名',
+  `price` decimal(20,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '商品价格',
+  `number` int unsigned NOT NULL DEFAULT '0' COMMENT '商品数量',
+  PRIMARY KEY (`id`),
+  KEY `idx_order_no` (`order_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单项(商品)';
+
+CREATE TABLE `t_order_log` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `order_no` varchar(32) NOT NULL DEFAULT '' COMMENT '订单号',
+  `operator` varchar(32) NOT NULL DEFAULT '' COMMENT '操作人',
+  `message` text COMMENT '操作内容',
+  `time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0.未删除, 1.已删除',
+  PRIMARY KEY (`id`),
+  KEY `idx_order_no` (`order_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单日志';
+#+END_SRC
+
+
+配置如下
+#+BEGIN_SRC java
+@Configuration
+public class TableColumnConfig {
+
+    @Bean("tableRelationList")
+    public List<TableColumnRelation> tableRelationList() {
+        return List.of(
+                new TableColumnRelation("t_order", "order_no", TableRelationType.ONE_TO_ONE, "t_order_address", "order_no"),
+                new TableColumnRelation("t_order", "order_no", TableRelationType.ONE_TO_MANY, "t_order_item", "order_no"),
+                new TableColumnRelation("t_order", "order_no", TableRelationType.ONE_TO_MANY, "t_order_log", "order_no")
+        );
+    }
+
+    @Bean("tableAliasMap")
+    public Map<String, ReqModel> tableAliasMap() {
+        return Map.of(
+                "all-order", new ReqModel("Order"),
+
+                "order-address-item-log", new ReqModel("Order", new ReqResult(List.of(
+                    "orderNo", "orderStatus", "amount", "desc", "createTime",
+                    Map.of("address", Map.of("table", "OrderAddress", "columns", List.of("contact", "phone", "address"))),
+                    Map.of("items", Map.of("table", "OrderItem", "columns", List.of("productName", "price", "number"))),
+                    Map.of("logs", Map.of("table", "OrderLog", "columns", List.of("operator", "message", "time")))
+                )))
+        );
+    }
+}
+#+END_SRC
+
+web 接口如下
+#+BEGIN_SRC java
+@RestController
+public class TableColumnController {
+
+    private final TableColumnTemplate tableColumnTemplate;
+    public TableColumnController(TableColumnTemplate tableColumnTemplate) {
+        this.tableColumnTemplate = tableColumnTemplate;
+    }
+
+    @GetMapping("/table-column")
+    public List<QueryInfo> info(String tables) {
+        return tableColumnTemplate.info(tables);
+    }
+
+    @PostMapping("/table-column")
+    public Object query(@RequestBody ReqInfo req) {
+        return tableColumnTemplate.dynamicQuery(req);
+    }
+}
+#+END_SRC
+
+-----
+
+请求如下
+#+BEGIN_SRC cURL
+#+END_SRC
+
+后端执行的 sql 如下
+#+BEGIN_SRC sql
+#+END_SRC
+
+响应如下
+#+BEGIN_SRC json
+#+END_SRC
