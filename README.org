@@ -1,7 +1,7 @@
 
 *** table-column-example
 
-假定你有如下这样的表
+假定有如下这样的表
 #+BEGIN_SRC sql
 CREATE TABLE `t_order` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
