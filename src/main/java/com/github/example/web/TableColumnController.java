@@ -115,7 +115,7 @@ public class TableColumnController {
 
     @PostMapping("/generate-user")
     @ApiMethod(value = "直接生成数据", index = 4)
-    public Object generate(@RequestBody Map<String, Object> req) {
+    public String generate(@RequestBody Map<String, Object> req) {
         String table = QueryUtil.toStr(req.get("table"));
         List<Map<String, Object>> dataList = QueryJsonUtil.convertType(req.get("data"), TYPE_REFERENCE);
         int flag = tableColumnTemplate.insertBatch(table, dataList);
