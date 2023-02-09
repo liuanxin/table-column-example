@@ -1,11 +1,11 @@
 
 DROP DATABASE IF EXISTS `table-column-example`;
-CREATE DATABASE IF NOT EXISTS `table-column-example`;
+CREATE DATABASE `table-column-example`;
 USE `table-column-example`;
 
 
 DROP TABLE IF EXISTS `t_order`;
-CREATE TABLE IF NOT EXISTS `t_order` (
+CREATE TABLE `t_order` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `order_no` varchar(32) NOT NULL COMMENT '订单号',
   `order_status` int unsigned NOT NULL DEFAULT '0' COMMENT '订单状态(0.用户已创建待支付, 1.用户已支付待商户发货, 2.商户已发货待用户签收, 3.用户已签收待确认完结, 4.已完结)',
@@ -23,7 +23,7 @@ INSERT INTO `t_order` (`order_no`, `order_status`, `amount`, `desc`) VALUES
 
 
 DROP TABLE IF EXISTS `t_order_address`;
-CREATE TABLE IF NOT EXISTS `t_order_address` (
+CREATE TABLE `t_order_address` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `order_no` varchar(32) NOT NULL DEFAULT '' COMMENT '订单号',
   `contact` varchar(16) NOT NULL DEFAULT '' COMMENT '联系人',
@@ -41,7 +41,7 @@ INSERT INTO `t_order_address` (`order_no`, `contact`, `phone`, `address`) VALUES
 
 
 DROP TABLE IF EXISTS `t_order_item`;
-CREATE TABLE IF NOT EXISTS `t_order_item` (
+CREATE TABLE `t_order_item` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `order_no` varchar(32) NOT NULL DEFAULT '' COMMENT '订单号',
   `product_name` varchar(32) NOT NULL DEFAULT '' COMMENT '商品名',
@@ -57,7 +57,7 @@ INSERT INTO `t_order_item` (`order_no`, `product_name`, `price`, `number`) VALUE
 
 
 DROP TABLE IF EXISTS `t_order_log`;
-CREATE TABLE IF NOT EXISTS `t_order_log` (
+CREATE TABLE `t_order_log` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `order_no` varchar(32) NOT NULL DEFAULT '' COMMENT '订单号',
   `operator` varchar(32) NOT NULL DEFAULT '' COMMENT '操作人',
