@@ -109,9 +109,9 @@ public class TableColumnController {
 
 -----
 
-请求 ~GET /table-column~ 会返回表字段及表关联关系, 如果配置 `query.has-not-return-info = true` 则此接口返回空
+请求 ~GET /table-column~ 会返回表字段及表关联关系, 如果配置 ~query.has-not-return-info = true~ 则此接口返回空
 
-下面是 ~POST /table-column~ 时请求参数、执行 sql 以及 返回结果 的示例
+下面是 ~POST /table-column~ 时请求参数以及最终执行的 sql, 最终会以请求参数中的 result 以及 返回结果 的示例
 
 请求参数
 #+BEGIN_SRC json
@@ -128,31 +128,108 @@ SELECT COUNT(*) FROM t_order WHERE deleted = 0
 
 SELECT ... FROM t_order WHERE deleted = 0 LIMIT 5
 #+END_SRC
-返回结果
+
+-----
+
+请求参数
 #+BEGIN_SRC json
 {
-  "count": 2,
-  "list": [
-    {
-      "id": "1",
-      "orderNo": "1-2-221010-00001",
-      "orderStatus": 1,
-      "amount": "125.49",
-      "desc": "请尽快发货",
-      "createTime": "2022-11-29 08:50:01",
-      "updateTime": "2023-02-09 21:33:47"
-    },
-    {
-      "id": "2",
-      "orderNo": "1-2-221010-00002",
-      "orderStatus": 2,
-      "amount": "38.00",
-      "desc": "",
-      "createTime": "2022-11-29 08:50:01",
-      "updateTime": "2022-11-29 21:04:56"
+  "table": "Order",
+  "result": {
+    "columns": [
+      "orderNo", "orderStatus", "amount", "desc", "createTime",
+      {
+        "address": {
+          "table": "OrderAddress",
+          "columns": [  "contact",   "address" ]
+        }
+      },
+      {
+        "items": {
+          "table": "OrderItem",
+          "columns": [ "productName", "price",  "number" ]
+        }
+      },
+      {
+        "logs": {
+          "table": "OrderLog",
+          "columns": [ "operator", "message", "time" ]
+        }
+      }
+    ]
+  },
+  "param": {
+    "query": {
+      "conditions": [
+        [ "id", "gt", 0 ]
+      ]
     }
-  ]
+  }
 }
+#+END_SRC
+执行 sql
+#+BEGIN_SRC sql
+SELECT order_no AS orderNo, order_status AS orderStatus, amount, `desc`, create_time AS createTime FROM t_order WHERE ( id > 0 ) AND deleted = 0
+
+SELECT order_no AS orderNo, contact, address FROM t_order_address WHERE ( order_no IN ('1-2-221010-00001', '1-2-221010-00002') ) AND deleted = 0
+
+SELECT order_no AS orderNo, product_name AS productName, price, `number` FROM t_order_item WHERE order_no IN ('1-2-221010-00001', '1-2-221010-00002')
+
+SELECT order_no AS orderNo, operator, message, `time` FROM t_order_log WHERE ( order_no IN ('1-2-221010-00001', '1-2-221010-00002') ) AND deleted = 0
 #+END_SRC
 
 -----
+
+请求参数
+#+BEGIN_SRC json
+{
+  "table": "Order",
+  "result": {
+    "columns": [
+      "orderNo", "orderStatus", "amount", "desc", "createTime",
+      {
+        "address": {
+          "columns": [  "contact",   "address" ],
+          "table": "OrderAddress"
+        }
+      },
+      {
+        "items": {
+          "columns": [ "productName", "price",  "number" ],
+          "table": "OrderItem"
+        }
+      },
+      {
+        "logs": {
+          "columns": [ "operator", "message", "time" ],
+          "table": "OrderLog"
+        }
+      }
+    ],
+    "distinct": true
+  },
+  "param": {
+    "query": {
+      "conditions": [
+        [ "id", "gt", 0 ],
+        [ "OrderItem.productName", "ne", "" ],
+        [ "OrderAddress.contact", "ne", "" ]
+      ]
+    },
+    "relation": [ [ "Order", "inner", "OrderItem" ],  [ "Order", "inner", "OrderAddress" ] ]
+  }
+}
+#+END_SRC
+执行 sql
+#+BEGIN_SRC sql
+SELECT DISTINCT `Order`.order_no AS orderNo, .. FROM t_order AS `Order`
+INNER JOIN t_order_item AS OrderItem ON OrderItem.order_no = `Order`.order_no
+INNER JOIN t_order_address AS OrderAddress ON OrderAddress.order_no = `Order`.order_no
+WHERE ( `Order`.id > 0 AND OrderItem.product_name <> '' AND OrderAddress.contact <> '' ) AND `Order`.deleted = 0 AND OrderAddress.deleted = 0
+
+SELECT order_no AS orderNo, contact, address FROM t_order_address WHERE ( order_no IN ('1-2-221010-00001', '1-2-221010-00002') ) AND deleted = 0
+
+SELECT order_no AS orderNo, product_name AS productName, price, `number` FROM t_order_item WHERE order_no IN ('1-2-221010-00001', '1-2-221010-00002')
+
+SELECT order_no AS orderNo, operator, message, `time` FROM t_order_log WHERE ( order_no IN ('1-2-221010-00001', '1-2-221010-00002') ) AND deleted = 0
+#+END_SRC

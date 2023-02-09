@@ -1,7 +1,7 @@
 package com.github.example.config;
 
 import com.github.liuanxin.query.enums.TableRelationType;
-import com.github.liuanxin.query.model.ReqModel;
+import com.github.liuanxin.query.model.ReqAlias;
 import com.github.liuanxin.query.model.ReqResult;
 import com.github.liuanxin.query.model.TableColumnRelation;
 import org.springframework.context.annotation.Bean;
@@ -23,11 +23,11 @@ public class TableColumnConfig {
     }
 
     @Bean
-    public Map<String, ReqModel> queryAliasMap() {
+    public Map<String, ReqAlias> queryAliasMap() {
         return Map.of(
-                "all-order", new ReqModel("Order"),
+                "all-order", new ReqAlias("Order"),
 
-                "order-address-item-log", new ReqModel("Order", new ReqResult(List.of(
+                "order-address-item-log", new ReqAlias("Order", new ReqResult(List.of(
                         "orderNo", "orderStatus", "amount", "desc", "createTime",
                         Map.of("address", Map.of("table", "OrderAddress", "columns", List.of("contact", "phone", "address"))),
                         Map.of("items", Map.of("table", "OrderItem", "columns", List.of("productName", "price", "number"))),
