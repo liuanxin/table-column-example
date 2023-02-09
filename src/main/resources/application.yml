@@ -21,8 +21,8 @@ spring:
 query:
 #  scan-packages: com.github.example.model
 #  required-alias: true
-#  need-condition-or-page: true
 #  alias-generate-rule: letter
+#  not-required-condition-or-page: true
   table-prefix: t_
   logic-delete-column: deleted
   logic-value: 0

@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `t_order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单';
 
 INSERT INTO `t_order` (`order_no`, `order_status`, `amount`, `desc`) VALUES
-('1-2-221010-00001', 1, 125.49, '备注'), ('1-2-221010-00002', 2, 38.00, '');
+('1-2-221010-00001', 1, 9258.00, '请尽快发货'), ('1-2-221010-00002', 2, 6900.00, '');
 
 
 DROP TABLE IF EXISTS `t_order_address`;
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `t_order_address` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单地址';
 
 INSERT INTO `t_order_address` (`order_no`, `contact`, `phone`, `address`) VALUES
-('1-2-221010-00001', '张三', '13012345678', 'xxx');
+('1-2-221010-00001', '张三', '13012345678', '北京市朝阳区'), ('1-2-221010-00002', '李四', '13122223333', '广东省广州市白云区');
 
 
 DROP TABLE IF EXISTS `t_order_item`;
@@ -52,8 +52,8 @@ CREATE TABLE IF NOT EXISTS `t_order_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单项(商品)';
 
 INSERT INTO `t_order_item` (`order_no`, `product_name`, `price`, `number`) VALUES
-('1-2-221010-00001', 'iPhone 14 Pro', 8999, 1),
-('1-2-221010-00001', '女款外套', 129.5, 2);
+('1-2-221010-00001', 'iPhone 14 Pro', 8999, 1), ('1-2-221010-00001', '女款外套', 129.5, 2),
+('1-2-221010-00002', 'Samsung', 6999.00, 1);
 
 
 DROP TABLE IF EXISTS `t_order_log`;
@@ -70,4 +70,7 @@ CREATE TABLE IF NOT EXISTS `t_order_log` (
 
 INSERT INTO `t_order_log` (`order_no`, `operator`, `message`, `time`) VALUES
 ('1-2-221010-00001', '张三', '创建订单', '2022-10-01 11:12:13'),
-('1-2-221010-00001', '张三', '支付成功', '2022-10-01 12:13:14');
+('1-2-221010-00001', '张三', '支付成功', '2022-10-01 12:13:14'),
+('1-2-221010-00002', '李四', '创建订单', '2022-10-01 12:15:14'),
+('1-2-221010-00002', '李四', '支付成功', '2022-10-01 12:16:14'),
+('1-2-221010-00002', '李四', '已发货, 待用户收货', '2022-10-01 12:17:14');
