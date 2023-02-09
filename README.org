@@ -169,13 +169,13 @@ SELECT ... FROM t_order WHERE deleted = 0 LIMIT 5
 #+END_SRC
 执行 sql
 #+BEGIN_SRC sql
-SELECT order_no AS orderNo, order_status AS orderStatus, amount, `desc`, create_time AS createTime FROM t_order WHERE ( id > 0 ) AND deleted = 0
+SELECT .. FROM t_order WHERE ( id > 0 ) AND deleted = 0
 
-SELECT order_no AS orderNo, contact, address FROM t_order_address WHERE ( order_no IN ('1-2-221010-00001', '1-2-221010-00002') ) AND deleted = 0
+SELECT .. FROM t_order_address WHERE ( order_no IN ('1-2-221010-00001', '1-2-221010-00002') ) AND deleted = 0
 
-SELECT order_no AS orderNo, product_name AS productName, price, `number` FROM t_order_item WHERE order_no IN ('1-2-221010-00001', '1-2-221010-00002')
+SELECT .. FROM t_order_item WHERE order_no IN ('1-2-221010-00001', '1-2-221010-00002')
 
-SELECT order_no AS orderNo, operator, message, `time` FROM t_order_log WHERE ( order_no IN ('1-2-221010-00001', '1-2-221010-00002') ) AND deleted = 0
+SELECT .. FROM t_order_log WHERE ( order_no IN ('1-2-221010-00001', '1-2-221010-00002') ) AND deleted = 0
 #+END_SRC
 
 -----
@@ -227,18 +227,21 @@ SELECT COUNT(DISTINCT `Order`.id)
 FROM t_order AS `Order`
 INNER JOIN t_order_item AS OrderItem ON OrderItem.order_no = `Order`.order_no
 INNER JOIN t_order_address AS OrderAddress ON OrderAddress.order_no = `Order`.order_no
-WHERE ( `Order`.id > 0 AND OrderItem.product_name <> '' AND OrderAddress.contact <> '' ) AND `Order`.deleted = 0 AND OrderAddress.deleted = 0
+WHERE ( `Order`.id > 0 AND OrderItem.product_name <> '' AND OrderAddress.contact <> '' )
+AND `Order`.deleted = 0 AND OrderAddress.deleted = 0
 
 SELECT DISTINCT `Order`.order_no AS orderNo, ..
 FROM t_order AS `Order`
 INNER JOIN t_order_item AS OrderItem ON OrderItem.order_no = `Order`.order_no
 INNER JOIN t_order_address AS OrderAddress ON OrderAddress.order_no = `Order`.order_no
-WHERE ( `Order`.id > 0 AND OrderItem.product_name <> '' AND OrderAddress.contact <> '' ) AND `Order`.deleted = 0 AND OrderAddress.deleted = 0
+WHERE ( `Order`.id > 0 AND OrderItem.product_name <> '' AND OrderAddress.contact <> '' )
+AND `Order`.deleted = 0 AND OrderAddress.deleted = 0
 LIMIT 5
 
-SELECT order_no AS orderNo, contact, address FROM t_order_address WHERE ( order_no IN ('1-2-221010-00001', '1-2-221010-00002') ) AND deleted = 0
+SELECT .. FROM t_order_address
+WHERE ( order_no IN ('1-2-221010-00001', '1-2-221010-00002') ) AND deleted = 0
 
-SELECT order_no AS orderNo, product_name AS productName, price, `number` FROM t_order_item WHERE order_no IN ('1-2-221010-00001', '1-2-221010-00002')
+SELECT .. FROM t_order_item WHERE order_no IN ('1-2-221010-00001', '1-2-221010-00002')
 
-SELECT order_no AS orderNo, operator, message, `time` FROM t_order_log WHERE ( order_no IN ('1-2-221010-00001', '1-2-221010-00002') ) AND deleted = 0
+SELECT .. FROM t_order_log WHERE ( order_no IN ('1-2-221010-00001', '1-2-221010-00002') ) AND deleted = 0
 #+END_SRC
