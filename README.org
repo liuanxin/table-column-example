@@ -189,20 +189,20 @@ SELECT order_no AS orderNo, operator, message, `time` FROM t_order_log WHERE ( o
       "orderNo", "orderStatus", "amount", "desc", "createTime",
       {
         "address": {
-          "columns": [  "contact",   "address" ],
-          "table": "OrderAddress"
+          "table": "OrderAddress",
+          "columns": [  "contact",   "address" ]
         }
       },
       {
         "items": {
-          "columns": [ "productName", "price",  "number" ],
-          "table": "OrderItem"
+          "table": "OrderItem",
+          "columns": [ "productName", "price",  "number" ]
         }
       },
       {
         "logs": {
-          "columns": [ "operator", "message", "time" ],
-          "table": "OrderLog"
+          "table": "OrderLog",
+          "columns": [ "operator", "message", "time" ]
         }
       }
     ],
@@ -216,16 +216,25 @@ SELECT order_no AS orderNo, operator, message, `time` FROM t_order_log WHERE ( o
         [ "OrderAddress.contact", "ne", "" ]
       ]
     },
-    "relation": [ [ "Order", "inner", "OrderItem" ],  [ "Order", "inner", "OrderAddress" ] ]
+    "relation": [ [ "Order", "inner", "OrderItem" ],  [ "Order", "inner", "OrderAddress" ] ],
+    "page": [ 1, 5 ]
   }
 }
 #+END_SRC
 执行 sql
 #+BEGIN_SRC sql
-SELECT DISTINCT `Order`.order_no AS orderNo, .. FROM t_order AS `Order`
+SELECT COUNT(DISTINCT `Order`.id)
+FROM t_order AS `Order`
 INNER JOIN t_order_item AS OrderItem ON OrderItem.order_no = `Order`.order_no
 INNER JOIN t_order_address AS OrderAddress ON OrderAddress.order_no = `Order`.order_no
 WHERE ( `Order`.id > 0 AND OrderItem.product_name <> '' AND OrderAddress.contact <> '' ) AND `Order`.deleted = 0 AND OrderAddress.deleted = 0
+
+SELECT DISTINCT `Order`.order_no AS orderNo, ..
+FROM t_order AS `Order`
+INNER JOIN t_order_item AS OrderItem ON OrderItem.order_no = `Order`.order_no
+INNER JOIN t_order_address AS OrderAddress ON OrderAddress.order_no = `Order`.order_no
+WHERE ( `Order`.id > 0 AND OrderItem.product_name <> '' AND OrderAddress.contact <> '' ) AND `Order`.deleted = 0 AND OrderAddress.deleted = 0
+LIMIT 5
 
 SELECT order_no AS orderNo, contact, address FROM t_order_address WHERE ( order_no IN ('1-2-221010-00001', '1-2-221010-00002') ) AND deleted = 0
 
