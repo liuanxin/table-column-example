@@ -94,17 +94,26 @@ public class TableColumnConfig {
         );
     }
 
-    @Bean
-    public Map<String, ReqModel> queryAliasMap() {
+    // 查询别名
+    @Bean("queryAliasMap")
+    public Map<String, ReqAlias> queryAlias() {
         return Map.of(
-                "all-order", new ReqModel("Order"),
+                // 用这个查询别名时, 只有订单表(所有字段)
+                "all-order", new ReqAlias("Order"),
+                "order-address-item-log", orderAddressItemLogAlias()
+        );
+    }
 
-                "order-address-item-log", new ReqModel("Order", new ReqResult(List.of(
-                        "orderNo", "orderStatus", "amount", "desc", "createTime",
-                        Map.of("address", Map.of("table", "OrderAddress", "columns", List.of("contact", "phone", "address"))),
-                        Map.of("items", Map.of("table", "OrderItem", "columns", List.of("productName", "price", "number"))),
-                        Map.of("logs", Map.of("table", "OrderLog", "columns", List.of("operator", "message", "time")))
-                ))));
+    private ReqAlias orderAddressItemLogAlias() {
+        // 指定 订单表 的字段, 指定 订单地址表 订单项表 订单日志表 的字段, 查询 Order 时 distinct, 并指定查询时多张表之间的关联方式
+        ReqResult result = new ReqResult(List.of(
+                "orderNo", "orderStatus", "amount", "desc", "createTime",
+                Map.of("address", Map.of("table", "OrderAddress", "columns", List.of("contact", "phone", "address"))),
+                Map.of("items", Map.of("table", "OrderItem", "columns", List.of("productName", "price", "number"))),
+                Map.of("logs", Map.of("table", "OrderLog", "columns", List.of("operator", "message", "time")))
+        ), true);
+        List<List<String>> relationList = List.of(List.of("Order", "inner", "OrderAddress"), List.of("Order", "left", "OrderItem"));
+        return new ReqAlias("Order", result, relationList);
     }
 }
 #+END_SRC
@@ -246,12 +255,31 @@ AND deleted = 0
         [ "OrderAddress.contact", "ne", "" ]
       ]
     },
+    "sort": { "createTime": "desc" },
     "relation": [ [ "Order", "inner", "OrderItem" ],  [ "Order", "inner", "OrderAddress" ] ],
     "page": [ 1, 5 ]
   }
 }
 #+END_SRC
-会依次执行以下 sql 并将数据组装返回
+除 param 下的 query sort page 是动态外, 上面的 table result param.relation 部分可以由 queryAlias 去定义, 如上面定义的 order-address-item-log 别名
+下面的入参可以达到跟上面等同的查询效果, 这样一来, 后端只需要定义好 alias 就可以了
+#+BEGIN_SRC json
+{
+  "alias": "order-address-item-log",
+  "param": {
+    "query": {
+      "conditions": [
+        [ "id", "gt", 0 ],
+        [ "OrderItem.productName", "ne", "" ],
+        [ "OrderAddress.contact", "ne", "" ]
+      ]
+    },
+    "sort": { "createTime": "desc" },
+    "page": [ 1, 5 ]
+  }
+}
+#+END_SRC
+上面的查询入参会依次执行以下 sql 并将数据组装返回
 #+BEGIN_SRC sql
 SELECT COUNT(DISTINCT `Order`.id)
 FROM t_order AS `Order`
@@ -267,6 +295,7 @@ INNER JOIN t_order_item AS OrderItem ON OrderItem.order_no = `Order`.order_no
 INNER JOIN t_order_address AS OrderAddress ON OrderAddress.order_no = `Order`.order_no
 WHERE ( `Order`.id > 0 AND OrderItem.product_name <> '' AND OrderAddress.contact <> '' )
 AND `Order`.deleted = 0 AND OrderAddress.deleted = 0
+ORDER BY `Order`.create_time DESC
 LIMIT 5
 
 
