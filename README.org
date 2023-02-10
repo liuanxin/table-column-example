@@ -165,6 +165,26 @@ SELECT .. FROM t_order WHERE deleted = 0 LIMIT 5
 
 -----
 
+请求参数(默认情况下, param 必须要有 query 或 page 才能进行查询, 可以用 ~query.not-required-condition-or-page = true~ 去掉此限制
+#+BEGIN_SRC json
+{
+  "table" : "Order",
+  "param" : {
+    "query": {
+      "conditions": [
+        [ "id", "gt", 0 ]
+      ]
+    }
+  }
+}
+#+END_SRC
+执行 sql
+#+BEGIN_SRC sql
+SELECT .. FROM t_order WHERE ( id > 0 ) AND deleted = 0
+#+END_SRC
+
+-----
+
 请求参数
 #+BEGIN_SRC json
 {
