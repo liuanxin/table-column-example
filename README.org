@@ -280,7 +280,7 @@ AND deleted = 0
   }
 }
 #+END_SRC
-上面的查询入参会依次执行以下 sql 并将数据组装返回
+上面的查询入参会依次执行以下 sql 并将数据组装返回(会批量查询避免生产 n+1)
 #+BEGIN_SRC sql
 SELECT COUNT(DISTINCT `Order`.id)
 FROM t_order AS `Order`
