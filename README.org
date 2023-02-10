@@ -169,6 +169,13 @@ SELECT .. FROM t_order WHERE deleted = 0 LIMIT 5
 #+BEGIN_SRC json
 {
   "table": "Order",
+  "param": {
+    "query": {
+      "conditions": [
+        [ "id", "gt", 0 ]
+      ]
+    }
+  },
   "result": {
     "columns": [
       "orderNo", "orderStatus", "amount", "desc", "createTime",
@@ -191,13 +198,6 @@ SELECT .. FROM t_order WHERE deleted = 0 LIMIT 5
         }
       }
     ]
-  },
-  "param": {
-    "query": {
-      "conditions": [
-        [ "id", "gt", 0 ]
-      ]
-    }
   }
 }
 #+END_SRC
@@ -223,6 +223,18 @@ AND deleted = 0
 #+BEGIN_SRC json
 {
   "table": "Order",
+  "param": {
+    "query": {
+      "conditions": [
+        [ "id", "gt", 0 ],
+        [ "OrderItem.productName", "ne", "" ],
+        [ "OrderAddress.contact", "ne", "" ]
+      ]
+    },
+    "sort": { "createTime": "desc" },
+    "relation": [ [ "Order", "inner", "OrderItem" ],  [ "Order", "inner", "OrderAddress" ] ],
+    "page": [ 1, 5 ]
+  },
   "result": {
     "columns": [
       "orderNo", "orderStatus", "amount", "desc", "createTime",
@@ -246,18 +258,6 @@ AND deleted = 0
       }
     ],
     "distinct": true
-  },
-  "param": {
-    "query": {
-      "conditions": [
-        [ "id", "gt", 0 ],
-        [ "OrderItem.productName", "ne", "" ],
-        [ "OrderAddress.contact", "ne", "" ]
-      ]
-    },
-    "sort": { "createTime": "desc" },
-    "relation": [ [ "Order", "inner", "OrderItem" ],  [ "Order", "inner", "OrderAddress" ] ],
-    "page": [ 1, 5 ]
   }
 }
 #+END_SRC
