@@ -261,8 +261,9 @@ AND deleted = 0
   }
 }
 #+END_SRC
-除 param 下的 query sort page 是动态外, 上面的 table result param.relation 部分可以由 queryAlias 去定义, 如上面定义的 order-address-item-log 别名
-下面的入参可以达到跟上面等同的查询效果, 这样一来, 后端只需要定义好 alias 就可以了
+除 ~param~ 下的 ~query~ ~sort~ ~page~ 是动态外, 上面的 ~table~ ~result~ ~param.relation~ 部分可以由 ~queryAlias~ 去定义, 如上面定义的 ~order-address-item-log~ 别名.
+
+下面的入参可以达到跟上面等同的查询效果, 这样一来, 后端只需要定义好 ~queryAlias~ 就可以了
 #+BEGIN_SRC json
 {
   "alias": "order-address-item-log",
