@@ -16,14 +16,14 @@ public class GenerateUtil {
     private static final String GIRL_NAME = "秀娟英华慧巧美娜静淑惠珠翠雅芝玉萍红娥玲芬芳燕彩春菊兰凤洁梅琳素云莲真环雪荣爱妹霞香月媛艳凡佳嘉琼勤珍莉桂娣妍茜秋珊莎锦羽希宁欣育柔竹亚宜枝思丽";
     private static final String BOY_NAME = "伟刚勇毅俊峰强军平东文辉力明永健世广志义兴良海山仁波宁贵福龙元全国胜学祥发武新利承乐绍功松善厚庆朋斌梁栋维启克伦翔旭鹏泽晨辰士以建家致树德行时泰";
 
-    public static String toPhone() {
+    public static String randomPhone() {
         String temp = "358";
         return "1" + temp.charAt(RANDOM.nextInt(temp.length())) + RANDOM.nextInt(10)
                 + String.format("%04d", RANDOM.nextInt(10000))
                 + String.format("%04d", RANDOM.nextInt(10000));
     }
 
-    public static String toEmail() {
+    public static String randomEmail() {
         StringBuilder sbd = new StringBuilder();
         int length = RANDOM.nextInt(6, 18);
         for (int i = 0; i < length; i++) {
@@ -34,7 +34,7 @@ public class GenerateUtil {
         return sbd.toString();
     }
 
-    public static String toName() {
+    public static String randomName() {
         StringBuilder sbd = new StringBuilder();
         sbd.append(SUR_NAME.charAt(RANDOM.nextInt(SUR_NAME.length())));
         boolean male = RANDOM.nextBoolean();
@@ -46,14 +46,14 @@ public class GenerateUtil {
         return sbd.toString();
     }
 
-    public static String toCode(String prefix) {
+    public static String randomCode(String prefix) {
         String num = String.format("%05d", RANDOM.nextInt(100000));
-        String today = new SimpleDateFormat("yyyy-MM-dd").format(toDate(120));
+        String today = new SimpleDateFormat("yyyy-MM-dd").format(randomDate(120));
         String no = today + "-" + num;
         return (prefix == null || prefix.isEmpty()) ? (today + "-" + no) : (prefix + "-" + no);
     }
 
-    public static String toVarchar(int count) {
+    public static String randomVarchar(int count) {
         StringBuilder sbd = new StringBuilder();
         int size = CHAR.length();
         for (int i = 0; i < count; i++) {
@@ -62,23 +62,23 @@ public class GenerateUtil {
         return sbd.toString();
     }
 
-    public static boolean toBoolean() {
+    public static boolean randomBoolean() {
         return RANDOM.nextBoolean();
     }
 
-    public static int toInt(int max) {
+    public static int randomInt(int max) {
         return RANDOM.nextInt(1, max);
     }
 
-    public static long toLong(long max) {
+    public static long randomLong(long max) {
         return RANDOM.nextLong(1, max);
     }
 
-    public static BigDecimal toDecimal(double max, int scale) {
+    public static BigDecimal randomDecimal(double max, int scale) {
         return BigDecimal.valueOf(RANDOM.nextDouble(0.01D, max)).setScale(scale, RoundingMode.DOWN);
     }
 
-    public static Date toDate(int ago) {
+    public static Date randomDate(int ago) {
         long ms = System.currentTimeMillis();
         long r = RANDOM.nextInt(ago * 24 * 60 * 60) * 1000L;
         return new Date(ms - r);

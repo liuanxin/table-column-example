@@ -5,6 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.File;
+import java.net.URL;
+import java.nio.file.Path;
+
 @SpringBootTest(classes = WebApplication.class)
 public class TableColumnExampleTest {
 
@@ -13,8 +17,13 @@ public class TableColumnExampleTest {
 
     @Test
     public void generateModel() {
-        String targetPath = "/home/admin/temp";
-        String packagePath = "com.github.example.model";
-        tableColumnTemplate.generateModel(targetPath, packagePath);
+        URL url = TableColumnExampleTest.class.getClassLoader().getResource("");
+        if (url != null) {
+            File file = new File(url.getFile());
+            Path path = file.getParentFile().getParentFile().toPath();
+            String targetPath = path + "/src/main/java";
+            String packagePath = "com.github.example.model";
+            tableColumnTemplate.generateModel(targetPath, packagePath);
+        }
     }
 }
