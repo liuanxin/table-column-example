@@ -35,6 +35,7 @@ public class TableColumnConfig {
     }
 
     private ReqAliasTemplate orderAddressItemLogAlias() {
+        // 指定条件的表达式
         ReqAliasTemplateQuery query = new ReqAliasTemplateQuery(OperateType.AND, List.of(
                 Map.of("id", ConditionType.$GT),
                 Map.of("orderNo", ConditionType.$NN),
