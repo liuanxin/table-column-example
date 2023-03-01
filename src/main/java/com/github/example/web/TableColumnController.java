@@ -38,11 +38,76 @@ public class TableColumnController {
     @PostMapping("/table-column")
     @ApiMethod( value = "数据查询", index = 2)
     public Object query(@RequestBody ReqInfo req) {
+        /*
+        {
+          "table": "Order",
+          "param": {
+            "query": {
+              "conditions": [
+                [ "id", "$gt", 0 ],
+                [ "orderNo", "$nn" ],
+                [ "createTime", "$ge", "2020-01-01" ],
+                [ "OrderItem.productName", "$ne", "" ],
+                [ "OrderAddress.contact", "$ne", "" ]
+              ]
+            },
+            "sort": { "createTime": "desc" },
+            "page": [ 1 ],
+            "relation": [ [ "Order", "inner", "OrderAddress" ],  [ "Order", "left", "OrderItem" ] ]
+          },
+          "result": {
+            "columns": [
+              "orderNo", "orderStatus", "amount", "desc", "createTime",
+              {
+                "address": {
+                  "table": "OrderAddress",
+                  "columns": [  "contact", "phone", "address" ]
+                }
+              },
+              {
+                "items": {
+                  "table": "OrderItem",
+                  "columns": [ "productName", "price",  "number" ]
+                }
+              },
+              {
+                "logs": {
+                  "table": "OrderLog",
+                  "columns": [ "operator", "message", "time" ]
+                }
+              }
+            ],
+            "distinct": true
+          }
+        }
+        */
+        return tableColumnTemplate.dynamicQuery(req);
+    }
+
+    @PostMapping("/table-column-alias")
+    @ApiMethod( value = "别名查询", index = 3)
+    public Object aliasQuery(@RequestBody ReqInfo req) {
+        /*
+        {
+          "alias" : "order-address-item-log",
+          "aliasQuery" : {
+            "query" : {
+              "id" : 0,
+              "orderNo": null,
+              "startTime": "2020-01-01",
+              "OrderItem.productName": "",
+              "OrderAddress.contact": ""
+            },
+            "sort": { "createTime": "desc" },
+            "page" : [ 1 ]
+          }
+        }
+        */
         return tableColumnTemplate.dynamicQuery(req);
     }
 
 //    @GetMapping("/generate-user")
-//    @ApiMethod(value = "生成数据", index = 3)
+//    @ApiMethod(value = "生成数据", index = 4)
 //    public String generate(@ApiParam("表名") String tables, @ApiParam("生成个数") Integer count) {
 //        int flag = 0;
 //        if (tables != null && !tables.trim().isEmpty() && count != null && count > 0) {
@@ -106,7 +171,7 @@ public class TableColumnController {
 //    }
 //
 //    @PostMapping("/generate-user")
-//    @ApiMethod(value = "直接生成数据", index = 4)
+//    @ApiMethod(value = "直接生成数据", index = 5)
 //    public String generate(@RequestBody Map<String, Object> req) {
 //        String table = QueryUtil.toStr(req.get("table"));
 //        List<Map<String, Object>> dataList = QueryJsonUtil.convertType(req.get("data"), TYPE_REFERENCE);
