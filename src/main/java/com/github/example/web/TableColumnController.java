@@ -93,13 +93,10 @@ public class TableColumnController {
           "aliasQuery" : {
             "query" : {
               "id" : 0,
-              "orderNo": null,
-              "startTime": "2020-01-01",
-              "OrderItem.productName": "",
-              "OrderAddress.contact": ""
+              "orderNo": 1,
+              "startTime": "2020-01-01"
             },
-            "sort": { "createTime": "desc" },
-            "page" : [ 1 ]
+            "page": [2000]
           }
         }
         */
