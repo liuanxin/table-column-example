@@ -60,11 +60,15 @@ public class TableColumnConfig {
         List<List<String>> relationList = List.of(List.of("Order", "inner", "OrderAddress"), List.of("Order", "left", "OrderItem"));
 
         // 指定返回字段: 订单表 + 订单地址表 订单项表 订单日志表, 查询 Order 时 distinct
+        // { "create_time" : [ "yyyy-MM-dd HH:mm", "GMT+8" ] },  // format date [ "pattern", "timeZone" ]
         ReqResult result = new ReqResult(List.of(
-                "id", "orderNo", "orderStatus", "amount", "desc", "createTime",
+                "id", "orderNo", "orderStatus", "amount", "desc",
+                Map.of("createTime", List.of("yyyy-MM-dd HH:mm", "GMT+8")),
                 Map.of("address", Map.of("table", "OrderAddress", "columns", List.of("contact", "phone", "address"))),
                 Map.of("items", Map.of("table", "OrderItem", "columns", List.of("productName", "price", "number"))),
-                Map.of("logs", Map.of("table", "OrderLog", "columns", List.of("operator", "message", "time")))
+                Map.of("logs", Map.of("table", "OrderLog", "columns", List.of("operator", "message", Map.of(
+                        "time", List.of("yyyy-MM-dd", "GMT+8")
+                ))))
         ), true);
         // return new ReqAliasTemplate("Order", query, relationList, result);
         return new ReqAliasTemplate("Order", query, sort, page, relationList, result);
