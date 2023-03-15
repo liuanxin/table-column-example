@@ -51,7 +51,7 @@ public class TableColumnConfig {
         ));
 
         // 指定默认的排序
-        Map<String, String> sort = Map.of("id", "asc", "createTime", "desc");
+        Map<String, String> sort = Map.of("id", "asc"/*, "createTime", "desc"*/);
 
         // 指定默认的分页
         List<String> page = List.of("1");
