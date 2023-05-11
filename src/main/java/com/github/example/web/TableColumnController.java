@@ -6,10 +6,7 @@ import com.github.liuanxin.query.core.TableColumnTemplate;
 import com.github.liuanxin.query.model.QueryInfo;
 import com.github.liuanxin.query.model.ReqInfo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,6 +34,7 @@ public class TableColumnController {
     @ApiMethod( value = "数据查询", index = 2)
     public Object query(@RequestBody ReqInfo req) {
         /*
+        POST /table-column
         {
           "table": "Order",
           "param": {
@@ -82,13 +80,13 @@ public class TableColumnController {
         return tableColumnTemplate.dynamicQuery(req);
     }
 
-    @PostMapping("/table-column-alias")
+    @PostMapping("/query-{alias}")
     @ApiMethod( value = "别名查询", index = 3)
-    public Object aliasQuery(@RequestBody ReqInfo req) {
+    public Object aliasQuery(@PathVariable("alias") String alias, @RequestBody ReqInfo req) {
         /*
+        POST /query-order-address-item-log
         {
-          "alias" : "order-address-item-log",
-          "aliasQuery" : {
+          "req" : {
             "query" : {
               "id" : 0,
               "orderNo": 1,
@@ -98,6 +96,6 @@ public class TableColumnController {
           }
         }
         */
-        return tableColumnTemplate.dynamicQuery(req);
+        return tableColumnTemplate.dynamicQuery(alias, req);
     }
 }
