@@ -19,9 +19,8 @@ public class TableColumnController {
 
     @GetMapping("/table-column-refresh")
     @ApiMethod(value = "刷新结构", index = 0)
-    public String refresh() {
-        boolean flag = tableColumnTemplate.refreshWithDatabase();
-        return flag ? "success" : "fail";
+    public Boolean refresh() {
+        return tableColumnTemplate.refreshWithDatabase();
     }
 
     @GetMapping("/table-column")
