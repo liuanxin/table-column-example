@@ -20,7 +20,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <api-document.version>0.8.9</api-document.version>
-        <table-column.version>0.0.1</table-column.version>
+        <table-column.version>1.0.0</table-column.version>
     </properties>
 
     <dependencies>
