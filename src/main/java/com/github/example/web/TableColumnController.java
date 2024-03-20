@@ -4,6 +4,7 @@ import com.github.liuanxin.api.annotation.ApiGroup;
 import com.github.liuanxin.api.annotation.ApiMethod;
 import com.github.liuanxin.query.core.TableColumnTemplate;
 import com.github.liuanxin.query.model.QueryInfo;
+import com.github.liuanxin.query.model.ReqAlias;
 import com.github.liuanxin.query.model.ReqInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class TableColumnController {
 
     private final TableColumnTemplate tableColumnTemplate;
 
-    @GetMapping("/table-column-refresh")
+    @PostMapping("/table-column")
     @ApiMethod(value = "刷新结构", index = 0)
     public Boolean refresh() {
         return tableColumnTemplate.refreshWithDatabase();
@@ -29,7 +30,7 @@ public class TableColumnController {
         return tableColumnTemplate.info(tables);
     }
 
-    @PostMapping("/table-column")
+    @PostMapping("/query")
     @ApiMethod( value = "数据查询", index = 2)
     public Object query(@RequestBody ReqInfo req) {
         /*
@@ -81,7 +82,7 @@ public class TableColumnController {
 
     @PostMapping("/query-{alias}")
     @ApiMethod( value = "别名查询", index = 3)
-    public Object aliasQuery(@PathVariable("alias") String alias, @RequestBody ReqInfo req) {
+    public Object aliasQuery(@PathVariable("alias") String alias, @RequestBody ReqAlias req) {
         /*
         POST /query-order-address-item-log
         {
