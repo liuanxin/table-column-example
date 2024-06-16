@@ -19,7 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <api-document.version>0.8.9</api-document.version>
+        <api-document.version>0.9.6</api-document.version>
         <table-column.version>1.0.0</table-column.version>
     </properties>
 
@@ -43,13 +43,14 @@
 
         <dependency>
             <groupId>com.github.liuanxin</groupId>
-            <artifactId>api-document</artifactId>
-            <version>${api-document.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.liuanxin</groupId>
             <artifactId>table-column</artifactId>
             <version>${table-column.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.liuanxin</groupId>
+            <artifactId>api-document</artifactId>
+            <version>${api-document.version}</version>
         </dependency>
 
         <dependency>
