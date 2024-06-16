@@ -84,12 +84,14 @@ public class TableColumnController {
     @ApiMethod( value = "数据查询(基于别名)", index = 3)
     public Object aliasQuery(@PathVariable("alias") String alias, @RequestBody ReqAlias req) {
         /*
+        下面的 order-address-item-log 是后台定义好的, 每个字段的规则由后端定义, 前端只需要传入参数即可
+
         POST /table-column/order-address-item-log
         {
           "req" : {
             "query" : {
               "id" : 0,
-              "orderNo": 1,
+              "orderNo": "",
               "startTime": "2020-01-01"
             },
             "page": [2000]
